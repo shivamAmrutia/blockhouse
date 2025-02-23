@@ -20,11 +20,13 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
 
-    - name: Stop and Remove Existing Container  # 🚀 New Step Here
+    - name: Stop and Remove Existing Container
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-          docker stop fastapi-container || true
-          docker rm fastapi-container || true
+          if [ "$(docker ps -q -f name=fastapi-container)" ]; then
+            docker stop fastapi-container
+            docker rm fastapi-container
+          fi
         EOF
 
     - name: Deploy to EC2
