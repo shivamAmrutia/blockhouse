@@ -53,3 +53,5 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         data = await websocket.receive_text()
         await websocket.send_text(f"Received: {data}")
+
+#this change is to test auto deployment
