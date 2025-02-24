@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi import WebSocket
-from app import schemas, crud
+from .. import schemas, crud
 from ..database import get_db
 from .websocket import active_connections, OrderStatusUpdate
 
@@ -39,5 +39,5 @@ async def create_order(order: schemas.Order, db: Session = Depends(get_db)):
     return db_order
 
 @router.get("/orders", response_model=List[schemas.Order])
-def get_orders(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return crud.get_orders(db=db, skip=skip, limit=limit)
+def get_orders(db: Session = Depends(get_db)):
+    return crud.get_orders(db=db)
