@@ -5,13 +5,13 @@ FROM python:3.10
 WORKDIR /app
 
 # Copy the required files
-COPY blockhouse/requirements.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 #copy the rest of the app files
-COPY blockhouse /app
+COPY . /app
 
 # Expose the application port
 EXPOSE 8000
