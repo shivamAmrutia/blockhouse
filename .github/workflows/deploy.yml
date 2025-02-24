@@ -3,7 +3,7 @@ name: Deploy FastAPI to AWS EC2
 on:
   push:
     branches:
-      - main  # Triggers deployment when code is pushed to main
+      - main
 
 jobs:
   deploy:
