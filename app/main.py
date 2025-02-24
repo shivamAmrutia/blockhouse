@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, WebSocket
 from pydantic import BaseModel
 from typing import List
 from sqlalchemy import create_engine, Column, Integer, String, Float
@@ -46,3 +46,10 @@ def create_order(order: Order, db: Session = Depends(get_db)):
 @app.get("/orders", response_model=List[Order])
 def get_orders(db: Session = Depends(get_db)):
     return db.query(OrderModel).all()
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Received: {data}")
